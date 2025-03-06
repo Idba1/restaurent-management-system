@@ -3,16 +3,16 @@ import featuredImg from "../../assets/home/featured.jpg";
 
 const Featured = () => {
     return (
-        <div className="featured-item text-white  my-20 bg-black bg-opacity-70">
+        <div className="featured-item text-white  my-20 bg-black bg-opacity-60">
             <div
-                className="bg-fixed bg-black bg-opacity-70"
+                className="bg-fixed bg-black bg-opacity-60"
                 style={{
                     backgroundImage: `url(${featuredImg})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
             >
-                <div className="bg-black bg-opacity-70 py-16 px-20">
+                <div className="bg-black bg-opacity-60 py-16 px-20">
                     <SectionTitle subHeading="---Check it out---" heading="From Our Menu" />
                     <div className="md:flex justify-center items-center">
                         <div className="md:w-1/2">
