@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ChefsRecommendedCard from './ChefsRecommendedCard';
 import slide1 from '../../assets/home/slide1.jpg';
+import SectionTitle from '../../Components/SectionTitle';
 
 const ChefsRecommendedSection = () => {
     const [recommendedDishes, setRecommendedDishes] = useState([]);
@@ -32,16 +33,20 @@ const ChefsRecommendedSection = () => {
     }, []);
 
     return (
-        <div className="flex justify-center items-center flex-wrap gap-6">
-            {recommendedDishes.map((dish, index) => (
-                <ChefsRecommendedCard
-                    key={index}
-                    imageSrc={dish.imageSrc}
-                    title={dish.title}
-                    description={dish.description}
-                />
-            ))}
+        <div className='my-8 lg:my-28'>
+            <SectionTitle subHeading="---Check it out---" heading="From Our Menu" />
+            <div className="flex justify-center items-center flex-wrap gap-6">
+                {recommendedDishes.map((dish, index) => (
+                    <ChefsRecommendedCard
+                        key={index}
+                        imageSrc={dish.imageSrc}
+                        title={dish.title}
+                        description={dish.description}
+                    />
+                ))}
+            </div>
         </div>
+
     );
 };
 
