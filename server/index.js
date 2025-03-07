@@ -49,6 +49,11 @@ app.get('/menu', async (req, res) => {
     res.send(result);
 })
 
+app.get('/reviews', async (req, res) => {
+    const result = await reviewCollection.find().toArray();
+    res.send(result);
+})
+
 app.get('/', (req, res) => {
     res.send("hello from Debug And Dine server..!!");
 })
