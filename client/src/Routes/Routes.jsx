@@ -31,7 +31,7 @@ const Routes = createBrowserRouter([
                     element: <Order></Order>,
                 },
                 {
-                    path: '/registration',
+                    path: '/signup',
                     element: <Registration></Registration>,
                 },
                 {
