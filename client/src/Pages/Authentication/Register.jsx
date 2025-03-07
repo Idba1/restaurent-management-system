@@ -12,28 +12,44 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit = data => {
-    console.log(data);
+    console.log('Form data:', data);
     createUser(data.email, data.password)
       .then(result => {
         const loggedUser = result.user;
-        console.log(loggedUser);
-        updateUserProfile(data.name, data.photoURL)
-          .then(() => {
-            console.log('user profile info updated')
-            reset();
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'User created successfully.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            navigate('/');
+        console.log('Logged user:', loggedUser);
 
-          })
-          .catch(error => console.log(error))
+        if (data.photoURL) {
+          updateUserProfile(data.name, data.photoURL)
+            .then(() => {
+              console.log('User profile updated');
+              console.log('Updated user:', loggedUser);
+              reset();
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'User created successfully.',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              navigate('/');
+            })
+            .catch(error => {
+              console.log('Profile update error:', error);
+            });
+        } else {
+          console.log('No photo URL provided');
+        }
       })
+      .catch(error => {
+        console.error('Error during user creation:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.message,
+        });
+      });
   };
+
 
   return (
     <>
