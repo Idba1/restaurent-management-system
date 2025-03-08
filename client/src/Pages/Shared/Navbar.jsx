@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [showProfile, setShowProfile] = useState(false);  // State to toggle profile visibility
+    const [showProfile, setShowProfile] = useState(false);
 
     const handleLogOut = () => {
         logOut()
@@ -16,6 +17,14 @@ const NavBar = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Our Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
+        <li>
+            <Link to="/">
+                <button className="btn">
+                    <FaShoppingCart className="mr-2"></FaShoppingCart>
+                    <div className="badge badge-secondary">+0</div>
+                </button>
+            </Link>
+        </li>
     </>
 
     return (
@@ -68,7 +77,7 @@ const NavBar = () => {
                             )}
                         </div>
                     ) : (
-                        <Link to="/login" className="btn btn-ghost">Get Started</Link>
+                        <Link to="/login" className="btn btn-ghost">LogIn</Link>
                     )}
                 </div>
             </div>
