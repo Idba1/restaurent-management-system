@@ -28,7 +28,7 @@ const Routes = createBrowserRouter([
                     element: <Order></Order>,
                 },
                 {
-                    path: 'order/salad',
+                    path: 'order',
                     element: <Order></Order>,
                 },
                 {
