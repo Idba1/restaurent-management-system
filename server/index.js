@@ -60,6 +60,11 @@ app.get('/carts', async (req, res) => {
     res.send(result);
 });
 
+app.get('/users', async (req, res) => {
+    const result = await userCollection.find().toArray();
+    res.send(result);
+})
+
 app.get('/', (req, res) => {
     res.send("Hello from Debug And Dine server..!!");
 });
