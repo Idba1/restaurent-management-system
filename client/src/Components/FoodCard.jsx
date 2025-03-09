@@ -7,7 +7,7 @@ import useCart from "../hooks/useCart";
 const FoodCard = ({ item }) => {
     const { name, image, price, recipe, _id } = item;
     const { user } = useAuth();
-    console.log(user)
+    // console.log(user)
     const navigate = useNavigate();
     const location = useLocation();
     const axiosSecure = useAxiosSecure();
@@ -24,6 +24,7 @@ const FoodCard = ({ item }) => {
             };
             axiosSecure.post('/carts', cartItem)
                 .then(res => {
+                    console.log(res.data)
                     if (res.data.insertedId) {
                         Swal.fire({
                             position: "top-end",

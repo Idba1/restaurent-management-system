@@ -21,7 +21,8 @@ const Routes = createBrowserRouter([
                 },
                 {
                     path: 'menu',
-                    element: <PrivateRoute><Menu></Menu></PrivateRoute>,
+                    element: <Menu></Menu>,
+                    // element: <PrivateRoute><Menu></Menu></PrivateRoute>,
                 },
                 {
                     path: 'order/:category',
