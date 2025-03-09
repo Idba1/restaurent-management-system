@@ -36,11 +36,13 @@ async function run() {
 }
 run().catch(console.dir);
 
+const userCollection = client.db("dibugAndDine").collection("users");
 const menuCollection = client.db("dibugAndDine").collection("menu");
 const reviewCollection = client.db("dibugAndDine").collection("reviews");
 const cartCollection = client.db("dibugAndDine").collection("carts");
 
 // Routes
+// get
 app.get('/menu', async (req, res) => {
     const result = await menuCollection.find().toArray();
     res.send(result);
@@ -66,6 +68,12 @@ app.get('/', (req, res) => {
 app.post('/carts', async (req, res) => {
     const cartItem = req.body;
     const result = await cartCollection.insertOne(cartItem);
+    res.send(result);
+})
+
+app.post('/users', async (req, res) => {
+    const user = req.body;
+    const result = await userCollection.insertOne(user);
     res.send(result);
 })
 
