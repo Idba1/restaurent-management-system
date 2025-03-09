@@ -1,9 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT || 9001;
-
 const app = express();
+
 const corsoptions = {
     origin: ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true,
