@@ -52,7 +52,9 @@ app.get('/reviews', async (req, res) => {
 });
 
 app.get('/carts', async (req, res) => {
-    const result = await cartCollection.find().toArray();
+    const email = req.query.email;
+    const query = { email: email };
+    const result = await cartCollection.find(query).toArray();
     res.send(result);
 });
 
