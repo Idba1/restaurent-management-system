@@ -38,7 +38,7 @@ run().catch(console.dir);
 
 const menuCollection = client.db("dibugAndDine").collection("menu");
 const reviewCollection = client.db("dibugAndDine").collection("reviews");
-const cartCollection = client.db("dibugAndDine").collection("carts"); // Ensure 'carts' collection exists
+const cartCollection = client.db("dibugAndDine").collection("carts");
 
 // Routes
 app.get('/menu', async (req, res) => {
@@ -72,6 +72,13 @@ app.get('/carts', async (req, res) => {
 app.get('/', (req, res) => {
     res.send("Hello from Debug And Dine server..!!");
 });
+
+//post
+app.post('/carts', async (req, res) => {
+    const cartItem = req.body;
+    const result = await cartCollection.insertOne(cartItem);
+    res.send(result);
+})
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
