@@ -52,21 +52,8 @@ app.get('/reviews', async (req, res) => {
 });
 
 app.get('/carts', async (req, res) => {
-    const { email } = req.query;
-    if (!email) {
-        return res.status(400).send({ message: "Email is required" });
-    }
-
-    try {
-        const result = await cartCollection.find({ email }).toArray();
-        if (result.length === 0) {
-            return res.status(404).send({ message: "Cart not found" });
-        }
-        res.send(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: "Internal server error" });
-    }
+    const result = await cartCollection.find().toArray();
+    res.send(result);
 });
 
 app.get('/', (req, res) => {
