@@ -156,12 +156,35 @@ app.delete('/carts/:id', async (req, res) => {
     res.send(result)
 })
 
-app.delete('/users/:id', verifyToken, verifyAdmin, async (req, res) => {
+// app.delete('/menu/:id', verifyToken, verifyAdmin, async (req, res) => {
+//     const id = req.params.id;
+//     console.log("Deleting item with ID:", id);
+//     const query = { _id: new ObjectId(id) }
+//     const result = await menuCollection.deleteOne(query);
+//     console.log("Delete result:", result);
+//     if (result.deletedCount > 0) {
+//         res.send(result);
+//     } else {
+//         res.status(404).send({ message: "Item not found" });
+//     }
+// });
+
+app.delete('/menu/:id', verifyToken, verifyAdmin, async (req, res) => {
+    const id = req.params.id;
+    console.log("Received ID:", id);
+    const query = { _id: new ObjectId(id) };
+    const result = await menuCollection.deleteOne(query);
+    res.send(result);
+});
+
+
+app.delete('/menu/:id', verifyToken, verifyAdmin, async (req, res) => {
     const id = req.params.id;
     const query = { _id: new ObjectId(id) }
-    const result = await userCollection.deleteOne(query);
+    const result = await menuCollection.deleteOne(query);
     res.send(result);
 })
+
 
 // patch
 app.patch('/users/admin/:id', verifyToken, verifyAdmin, async (req, res) => {
