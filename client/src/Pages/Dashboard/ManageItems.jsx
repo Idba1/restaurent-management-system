@@ -1,11 +1,62 @@
 import SectionTitle from "../../Components/SectionTitle";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import useMenu from "../../hooks/useMenu";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 const ManageItems = () => {
-    const [menu] = useMenu();
+    const [menu, , refetch] = useMenu();
+    const axiosSecure = useAxiosSecure();
+
+    const handleDeleteItem = (item) => {
+        console.log("Attempting to delete item with ID:", item._id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await axiosSecure.delete(`/menu/${item._id}`);
+                    console.log("Delete response:", res.data);
+                    if (res.data.deletedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `${item.name} has been deleted`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "Deletion failed. Item not found.",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error deleting item:", error);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Failed to delete item.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
+    };
+    
 
     return (
         <div>
