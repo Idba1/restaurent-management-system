@@ -20,7 +20,29 @@ const AddItems = () => {
                 'content-type': 'multipart/form-data',
             },
         });
-       console.log(res.data)
+        console.log(res.data);
+        if (res.data.success) {
+            const menuItem = {
+                name: data.name,
+                category: data.category,
+                price: parseFloat(data.price),
+                recipe: data.recipe,
+                image: res.data.data.display_url,
+            };
+            const menuRes = await axiosSecure.post('/menu', menuItem);
+            console.log(menuRes.data);
+            if (menuRes.data.insertedId) {
+                reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${data.name} is added to the menu.`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        }
+        console.log('with image URL', res.data);
     };
 
     return (

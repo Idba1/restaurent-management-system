@@ -142,6 +142,11 @@ app.post('/users', async (req, res) => {
     res.send(result);
 })
 
+app.post('/menu', verifyToken, verifyAdmin, async (req, res) => {
+    const item = req.body;
+    const result = await menuCollection.insertOne(item);
+    res.send(result);
+});
 
 // deleted
 app.delete('/carts/:id', async (req, res) => {
