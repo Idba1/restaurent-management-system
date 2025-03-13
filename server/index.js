@@ -270,6 +270,35 @@ app.post('/payments', async (req, res) => {
     res.send({ paymentResult, deleteResult });
 })
 
+
+// stats or analytics
+app.get('/admin-stats', verifyToken, verifyAdmin, async (req, res) => {
+    const users = await userCollection.estimatedDocumentCount();
+    const menuItems = await menuCollection.estimatedDocumentCount();
+    const orders = await paymentCollection.estimatedDocumentCount();
+
+    const result = await paymentCollection.aggregate([
+        {
+            $group: {
+                _id: null,
+                totalRevenue: {
+                    $sum: '$price'
+                }
+            }
+        }
+    ]).toArray();
+
+    const revenue = result.length > 0 ? result[0].totalRevenue : 0;
+
+    res.send({
+        users,
+        menuItems,
+        orders,
+        revenue
+    })
+})
+
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
