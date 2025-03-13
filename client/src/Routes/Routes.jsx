@@ -91,7 +91,7 @@ const Routes = createBrowserRouter([
             {
                 path: 'updateItem/:id',
                 element: <UpdateItem></UpdateItem>,
-                // loader: ({ params }) => fetch(`http://localhost:9001/menu/${params._id}`)
+                // loader: ({ params }) => fetch(`https://server-three-umber-95.vercel.app/menu/${params._id}`)
 
             },
             {
