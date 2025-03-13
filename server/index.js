@@ -28,9 +28,9 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        await client.connect();
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // // await client.connect();
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
         const userCollection = client.db("dibugAndDine").collection("users");
         const menuCollection = client.db("dibugAndDine").collection("menu");
@@ -279,7 +279,7 @@ async function run() {
                 revenue
             })
         })
-        
+
 
         // using aggregate pipeline
         app.get('/order-stats', verifyToken, verifyAdmin, async (req, res) => {
