@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin";
 
 const NavBar = () => {
     const { user, logOut } = useContext(AuthContext);
     const [showProfile, setShowProfile] = useState(false);
-
+    const [isAdmin] = useAdmin();
     const [cart] = useCart();
 
     const handleLogOut = () => {
@@ -61,21 +62,55 @@ const NavBar = () => {
                                     className="w-8 h-8 rounded-full"
                                 />
                             </button>
-
                             {showProfile && (
-                                <div className="absolute right-0 mt-2 p-4 bg-white text-black shadow-lg rounded-lg w-48">
-                                    <div className="flex items-center mb-2">
+                                <div className="absolute right-0 mt-2 p-4 bg-white text-black shadow-lg rounded-lg w-48 md:w-64">
+                                    <div className="flex justify-center mb-4">
                                         <img
                                             src={user.photoURL}
                                             alt="Profile"
-                                            className="w-10 h-10 rounded-full mr-2"
+                                            className="w-16 h-16 rounded-full object-cover"
                                         />
-                                        <div>
-                                            <p className="font-bold">{user.displayName}</p>
-                                            <p className="text-sm text-gray-600">{user.email}</p>
-                                        </div>
                                     </div>
-                                    <button onClick={handleLogOut} className="btn btn-ghost w-full">LogOut</button>
+
+                                    {/* User Info */}
+                                    <div className="text-center mb-4">
+                                        <p className="font-semibold text-lg">{user.displayName}</p>
+                                        <p className="text-sm text-gray-600">{user.email}</p>
+                                    </div>
+
+                                    {/* Links */}
+                                    <ul className="space-y-2 mb-4">
+                                        {user && isAdmin && (
+                                            <li>
+                                                <Link
+                                                    to="/dashboard/adminHome"
+                                                    className="text-blue-500 hover:text-blue-700 font-medium block text-center"
+                                                >
+                                                    Admin Dashboard
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {user && !isAdmin && (
+                                            <li>
+                                                <Link
+                                                    to="/dashboard/userHome"
+                                                    className="text-blue-500 hover:text-blue-700 font-medium block text-center"
+                                                >
+                                                    User Dashboard
+                                                </Link>
+                                            </li>
+                                        )}
+                                    </ul>
+
+                                    {/* Log Out Button */}
+                                    <div className="flex justify-center">
+                                        <button
+                                            onClick={handleLogOut}
+                                            className="btn btn-ghost w-full text-red-600 mt-4 hover:bg-red-50 focus:outline-none"
+                                        >
+                                            Log Out
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>
