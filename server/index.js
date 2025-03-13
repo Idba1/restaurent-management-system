@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT || 9001;
 const app = express();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const corsoptions = {
     origin: ['http://localhost:5173', 'http://localhost:5174'],
@@ -41,6 +42,7 @@ const userCollection = client.db("dibugAndDine").collection("users");
 const menuCollection = client.db("dibugAndDine").collection("menu");
 const reviewCollection = client.db("dibugAndDine").collection("reviews");
 const cartCollection = client.db("dibugAndDine").collection("carts");
+const paymentCollection = client.db("dibugAndDine").collection("payments");
 
 // Routes
 
@@ -222,6 +224,50 @@ app.patch('/menu/:id', async (req, res) => {
 
     const result = await menuCollection.updateOne(filter, updatedDoc)
     res.send(result);
+})
+
+// payment intent
+app.post('/create-payment-intent', async (req, res) => {
+    const { price } = req.body;
+    const amount = parseInt(price * 100);
+    console.log(amount, 'amount inside the intent')
+
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: 'usd',
+        payment_method_types: ['card']
+    });
+
+    res.send({
+        clientSecret: paymentIntent.client_secret
+    })
+});
+
+
+app.get('/payments/:email', verifyToken, async (req, res) => {
+    const query = { email: req.params.email }
+    if (req.params.email !== req.decoded.email) {
+        return res.status(403).send({ message: 'forbidden access' });
+    }
+    const result = await paymentCollection.find(query).toArray();
+    res.send(result);
+})
+
+app.post('/payments', async (req, res) => {
+    const payment = req.body;
+    const paymentResult = await paymentCollection.insertOne(payment);
+
+    // delete each item from the cart
+    console.log('payment info', payment);
+    const query = {
+        _id: {
+            $in: payment.cartIds.map(id => new ObjectId(id))
+        }
+    };
+
+    const deleteResult = await cartCollection.deleteMany(query);
+
+    res.send({ paymentResult, deleteResult });
 })
 
 app.listen(port, () => {
