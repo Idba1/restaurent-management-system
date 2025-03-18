@@ -7,7 +7,7 @@ const app = express();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const corsoptions = {
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://funny-cheesecake-472844.netlify.app', 'https://solo-sphere-b9c50.web.app'],
     credentials: true,
     optionsSuccessStatus: 200
 };
